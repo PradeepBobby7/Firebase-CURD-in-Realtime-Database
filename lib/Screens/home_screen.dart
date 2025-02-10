@@ -48,11 +48,21 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void signOut() {
+    final authProvider = Provider.of<AuthProviderState>(context, listen: false);
+    setState(() => isLoading = true);
+    authProvider.signOut();
+    setState(() => isLoading = false);
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("HomeScreen"),
+        actions: [IconButton(onPressed: signOut, icon: Icon(Icons.logout))],
       ),
       body: ListView.builder(
         itemCount: profiles.length,
